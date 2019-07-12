@@ -1,0 +1,23 @@
+const mysql = require('mysql');
+var Mysql = require('./dbConfig');
+var connection = mysql.createConnection(Mysql.config);
+      
+module.exports.addPerson = function(req,res){
+    res.render('addPerson');    
+}
+module.exports.addPersonPost = function(req,res) {
+    var name=req.body.Name;
+    var surname=req.body.Surname;
+    var phoneNumber=req.body.PhoneNumber;
+    var address=req.body.Address;
+    var sql = "INSERT INTO Person(Name,Surname,PhoneNumber,Address) values('"+name+"','"+surname+"','"+phoneNumber+"','"+address+"')";
+    connection.query(sql, function (err, result) {
+        if(err) {
+            throw err;
+        } 
+        else {
+            res.redirect('/listPerson')
+        }
+    });    
+}
+
